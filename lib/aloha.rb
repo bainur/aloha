@@ -31,7 +31,7 @@ module Aloha
           card_number: '4242424242424242',
           first_name: 'Bainur',
           last_name: 'Budi',
-          company: 'Pushjaw',
+          company: 'company',
           date_of_birth: {
               date: '04/17/2014',
               locale: 'en_US'
@@ -143,7 +143,7 @@ module Aloha
           card_number: '4242424242424242',
           first_name: 'Bainur',
           last_name: 'Budi',
-          company: 'Pushjaw',
+          company: 'company',
           date_of_birth: {
             date: '04/17/2014',
             locale: 'en_US'
