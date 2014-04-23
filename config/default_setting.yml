@@ -1,0 +1,44 @@
+soap_setting:
+  system_id: rr39261
+  company_id: RDS11
+  user_id: Web.Service
+  pwd: LoyaltyAPI1
+  password: '!069158823A'
+  wsdl_url: https://memberlinkWS.alohaenterprise.com/insightws/MemberLinkWS?wsdl
+
+member_profile:
+  member_account_id: 1 # memberAccountID:int
+  card_number: 424242424242 # cardNumber:String
+  first_name: 'First Name'  # firstName:String
+  last_name: 'Last Name' # lastName:String
+  company: 'Company' # company:String
+  date_of_birth:
+    date: Date.today # VanityDate date:String
+    locale: 'en_US' # VanityDate locale:String
+  anniversary_date:
+    date: Date.today  # VanityDate date:String
+    locale: 'en_US' # VanityDate locale:String
+  drivers_license: '1234567890'
+  address1: 'Address 1' # address1:String
+  address2: 'Address 2' # address2:String
+  city: 'City' # city:String
+  state_province: 'State Province' # stateProvince:String
+  country: 'Country' # country:String
+  postal_code: '12345' # postalCode:String
+  email_address: 'test@example.com' # emailAddress:String
+  phone_number: '+62891000000' # phoneNumber:String
+  other_phone_number: '+6222900000' # otherPhoneNumber:String
+
+adjust_credit:
+  card_number: '4242424242424242' # cardNumber:String
+  bpid: 1 # BPID:Int
+  adjustment_type: 1234500000001 # adjustmentType:String
+  bp_credit: 1 # BPCredit:Int
+  reason: 'test reason' # reason:String
+
+get_bonus_plan_history:
+  card_number: '4242424242424242' # cardNumber:String
+  number_of_assignments: 1 # numberOfAssignments:Int
+  number_of_days: 1 # numberDfDays:Int
+  start_date: Date.today # startDate:String
+  end_date: Date.today # endDate:String
