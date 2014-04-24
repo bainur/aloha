@@ -9,23 +9,23 @@ module Aloha
 
   # Setting for soap client
   def self.soap_setting(params = {})
-    setting = @default_setting['soap_setting']
+    if params
+      system_id = params[:system_id] if params[:system_id]
+      company_id = params[:company_id] if params[:company_id]
+      user_id = params[:user_id] if params[:user_id]
+      pwd = params[:pwd] if params[:pwd]
+      password = params[:password] if params[:password]
+      default_request = {'company_id' => company_id, 'userID' => user_id, 'password' => pwd}
+      wsdl_url = params[:wsdl_url] if params[:wsdl_url]
 
-    system_id = params[:system_id] || setting['system_id']
-    company_id = params[:company_id] || setting['company_id']
-    user_id = params[:user_id] || setting['user_id']
-    pwd = params[:pwd] || setting['pwd']
-    password = params[:password] || setting['password']
-    default_request = {'company_id' => company_id, 'userID' => user_id, 'password' => pwd}
-    wsdl_url = params[:wsdl_url] || setting['wsdl_url']
-
-    @client = Savon.client do
-      wsdl wsdl_url
-      wsse_timestamp true
-      wsse_auth system_id, password
-      log true
-      log_level :debug
-      pretty_print_xml true
+      @client = Savon.client do
+        wsdl wsdl_url
+        wsse_timestamp true
+        wsse_auth system_id, password
+        log true
+        log_level :debug
+        pretty_print_xml true
+      end if system_id && password && wsdl_url
     end
   end
 
@@ -62,7 +62,9 @@ module Aloha
           profile_exists: params[:profile_exists] # profileExists:Boolean
         }
       })
-    end if client
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### adjustCredit()
@@ -77,7 +79,7 @@ module Aloha
         'BPCredit' => params[:bp_credit] || adjust_credit['bp_credit'], # BPCredit:Int
         'reason' => params[:reason] || adjust_credit['reason'] # reason:String
       })
-    end if client
+    end if client && (client.is_a?(Savon::Client))
   end
 
   ### getBonusPlanHistory()
@@ -92,60 +94,90 @@ module Aloha
         start_date: params[:start_date] || Date.today.to_s, # startDate:String
         end_date: params[:end_date] || Date.today.to_s # endDate:String
       })
-    end if client
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### getBonusPlanStandings()
   def self.get_bonus_plan_standings(client, params = {})
+    global = @default_setting['global']
+
     client.call(:get_bonus_plan_standings) do
       message(get_bonus_plan_standings_request: {
-        card_number: params[:card_number] || '42424242424242', # cardNumber:String
+        card_number: params[:card_number] || global['card_number'], # cardNumber:String
         available_items_return: params[:available_items_return], #availableItemsReturn:Boolean
         purchased_items_return: params[:purchased_items_return] #purchasedItemsReturn:Boolean
       })
-    end if client
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### eMailExists()
   def self.email_exists(client, params = {})
+    global = @default_setting['global']
+
     client.call(:e_mail_exists) do
-      message(e_mail_exists_request: {e_mail_address: params[:e_mail_address] || 'test@example.com'}) # eMailAddress:String
-    end if client
+      message(e_mail_exists_request: {e_mail_address: params[:e_mail_address] || global['email_address']}) # eMailAddress:String
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### getCardNumberByEmail()
   def self.get_card_number_by_email(client, params = {})
+    global = @default_setting['global']
+
     client.call(:get_card_number_by_email) do
-      message('GetCardNumberByEmailRequest' => {email_address: params[:email_address] || 'test@example.com'}) # emailAddress:String
-    end if client
+      message('GetCardNumberByEmailRequest' => {email_address: params[:email_address] || global['email_address']}) # emailAddress:String
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### getCardNumberByPhone()
   def self.get_card_number_by_phone(client, params = {})
+    global = @default_setting['global']
+
     @client.call(:get_card_number_by_phone) do
-      message('GetCardNumberByPhoneRequest' => {phone_number: params[:phone_number] || '+6222900000'}) # phoneNumber:String
-    end
+      message('GetCardNumberByPhoneRequest' => {phone_number: params[:phone_number] || global['phone_number']}) # phoneNumber:String
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### getCardStatus()  
   def self.get_card_status(client, params = {})
+    global = @default_setting['global']
+
     client.call(:get_card_status) do
-      message(get_card_status_request: {card_number: params[:card_number] || '42424242424242'}) # cardNumber:String 14 digit
-    end if client
+      message(get_card_status_request: {card_number: params[:card_number] || global['card_number14']}) # cardNumber:String 14 digit
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### getMemberProfile()  
   def self.get_member_profile(client, params = {})
+    global = @default_setting['global']
+
     client.call(:get_member_profile) do
-      message(get_member_profile_request: {card_number: params[:card_number] || '42424242424242'}) # cardNumber:String 14 digit
-    end if client
+      message(get_member_profile_request: {card_number: params[:card_number] || global['card_number14']}) # cardNumber:String 14 digit
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### phoneNumberExists() 
   def self.phone_number_exists(client, params = {})
+    global = @default_setting['global']
+
     client.call(:phone_number_exists) do
-      message('PhoneNumberExistsRequest' => {phone_number: params[:card_number] || '+62229000000'}) # phoneNumber:String
-    end if client
+      message('PhoneNumberExistsRequest' => {phone_number: params[:card_number] || global['phone_number']}) # phoneNumber:String
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### updateMemberProfile()
@@ -181,27 +213,37 @@ module Aloha
           profile_exists: params[:profile_exists] # profileExists:Boolean
         }
       })
-    end if client
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### assignForgottenCard()
   def self.assign_forgotten_card(client, params = {})
+    global = @default_setting['global']
+
     client.call(:assign_forgotten_card) do
       message(assign_forgotten_card_request: {
-          card_number: params[:card_number] || '4242424242424242', # cardNumber:String
-          claim_ID: params[:claim_id] || '12345678910' # claimID:String
+          card_number: params[:card_number] || global['card_number'], # cardNumber:String
+          claim_ID: params[:claim_id] || global['claim_id'] # claimID:String
       })
-    end if client
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### getCheckDetail()
   def self.get_check_detail(client, params = {})
+    global = @default_setting['global']
+
     client.call(:get_check_detail) do
       message('GetCheckDetailRequest' => {
-        claim_ID: params[:claim_id] || 'testexample123123', # claimID:String
-        store_ID: params[:store_id] || 1122334455, # store_ID:Int
+        claim_ID: params[:claim_id] || global['claim_id'], # claimID:String
+        store_ID: params[:store_id] || global['store_id'], # store_ID:Int
         date_of_business: params[:date_of_business] || Date.today.to_s # dateOfBusiness:String
       })
-    end if client
+    end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 end
