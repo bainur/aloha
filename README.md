@@ -7,16 +7,13 @@ Aloha is a gem to access the web services
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'aloha'
+gem 'aloha', git: 'git://github.com/bainur/aloha.git'
 ```
 
 And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install aloha
+```ruby
+$ bundle install
+```
 
 ## Usage
 
