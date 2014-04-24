@@ -80,6 +80,8 @@ module Aloha
         'reason' => params[:reason] || adjust_credit['reason'] # reason:String
       })
     end if client && (client.is_a?(Savon::Client))
+
+  rescue Savon::SOAPFault
   end
 
   ### getBonusPlanHistory()
