@@ -121,7 +121,7 @@ module Aloha
     global = @default_setting['global']
 
     client.call(:e_mail_exists) do
-      message(e_mail_exists_request: {e_mail_address: params[:e_mail_address] || global['email_address']}) # eMailAddress:String
+      message(e_mail_exists_request: {e_mail_address: params[:email_address] || global['email_address']}) # eMailAddress:String
     end if client && (client.is_a?(Savon::Client))
 
   rescue Savon::SOAPFault
