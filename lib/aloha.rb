@@ -59,10 +59,10 @@ module Aloha
           email_address: params[:email_address],
           phone_number: params[:phone_number],
           other_phone_number: params[:other_phone_number],
-          profile_exists: params[:profile_exists],
-          company_defined1: params[:company_defined1],
-          company_defined2: params[:company_defined2],
-          company_defined2: params[:company_defined2]
+          profile_exists: params[:profile_exists]
+          #company_defined1: params[:company_defined1],
+          #company_defined2: params[:company_defined2],
+          #company_defined2: params[:company_defined2]
         }
       }
       request_params.merge!(default_request)
@@ -282,6 +282,96 @@ module Aloha
 
       client.call(:get_check_detail) do
         message('GetCheckDetailRequest' => request_params)
+      end
+
+    rescue Savon::SOAPFault
+    end
+
+    ### activateNewCard ()
+    def activate_new_card(params = {})
+      request_params = {
+          'batchID' => params[:batch_id]
+      }
+      request_params.merge!(default_request)
+
+      client.call(:activate_new_card) do
+        message('ActivateNewCardRequest' => request_params)
+      end
+
+    rescue Savon::SOAPFault
+    end
+
+    ### createVirtualCard()
+    def create_virtual_card(params = {})
+      request_params = {
+          card_series: params[:card_series]
+      }
+      request_params.merge!(default_request)
+
+      client.call(:create_virtual_card) do
+        message('CreateVirtualCardResult' => request_params)
+      end
+
+    rescue Savon::SOAPFault
+    end
+
+    ### optOut()
+    def opt_out(params = {})
+      request_params = {
+          card_number: params[:card_number]
+      }
+      request_params.merge!(default_request)
+
+      client.call(:opt_out) do
+        message(opt_out_request: request_params)
+      end
+
+    rescue Savon::SOAPFault
+    end
+
+    ### phoneNumberExists()
+    def phone_number_exists(params = {})
+      request_params = {
+          phone_number: params[:phone_number]
+      }
+      request_params.merge!(default_request)
+
+      client.call(:phone_number_exists) do
+        message('PhoneNumberExistsRequest' => request_params)
+      end
+
+    rescue Savon::SOAPFault
+    end
+
+    ### newVirtualCard ()
+    def new_virtual_card(params = {})
+      request_params = {
+          card_series: params[:card_series]
+      }
+      request_params.merge!(default_request)
+
+      client.call(:new_virtual_card) do
+        message('NewVirtualCardRequest' => request_params)
+      end
+
+    rescue Savon::SOAPFault
+    end
+
+    ### createNewCard()
+    def create_new_card(params = {})
+      request_params = {
+          activate_card: params[:activate_card],
+          batch_desc: params[:batch_desc],
+          'batchID' => params[:batch_id],
+          card_series: params[:card_series],
+          number_of_cards: params[:number_of_cards],
+          numeric_sequence_type: params[:numeric_sequence_type],
+          starting_card_number: params[:starting_card_number]
+      }
+      request_params.merge!(default_request)
+
+      client.call(:create_new_card) do
+        message('CreateNewCardRequest' => request_params)
       end
 
     rescue Savon::SOAPFault
