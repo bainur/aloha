@@ -7,7 +7,7 @@ Aloha is a gem to access the web services
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'aloha', git: 'git://github.com/bainur/client.git'
+gem 'aloha', git: 'git://github.com/bainur/aloha.git'
 ```
 
 And then execute:
