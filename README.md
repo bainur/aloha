@@ -7,7 +7,7 @@ Aloha is a gem to access the web services
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'aloha', git: 'git://github.com/bainur/aloha.git'
+gem 'aloha', git: 'git://github.com/bainur/client.git'
 ```
 
 And then execute:
@@ -17,123 +17,119 @@ $ bundle install
 
 ## Usage
 
-The first, you create a variable eg. `client` without parameter like this :
+The first, you create a variable eg. `client` like this :
 ```ruby
-client = Aloha.soap_setting
-```
-or use parameters :
-```ruby
-client = Aloha.soap_setting(system_id: 'system ID', company_id: 'company ID', user_id: 'user ID', password: 'password', wsdl_url: 'https://memberlinkWS.alohaenterprise.com/insightws/MemberLinkWS?wsdl')
+client = Aloha::Soap.new(system_id: 'system ID', company_id: 'company ID', user_id: 'user ID', account_password: 'password', system_password: 'password', wsdl_url: 'https://memberlinkWS.alohaenterprise.com/insightws/MemberLinkWS?wsdl')
 ```
 
 Then, you can access for :
 
 * Add member profile without parameter :
 ```ruby
-Aloha.add_member_profile(client)
+client.add_member_profile
 ```
 * Add member profile with parameters :
 ```ruby
-Aloha.add_member_profile(client, member_account_id: :integer, card_number: :string, first_name: :string, last_name: :string, company: :string, date_of_birth: {date: :string, locale: :string}, anniversary_date: {date: :string, locale: :string}, drivers_license: :string, address1: :string, address2: :string, city: :string, state_province: :string, country: :string, postal_code: :string, email_address: :string, phone_number: :string, other_phone_number: :string, profile_exists: :boolean)
+client.add_member_profile(member_account_id: :integer, card_number: :string, first_name: :string, last_name: :string, company: :string, date_of_birth: {date: :string, locale: :string}, anniversary_date: {date: :string, locale: :string}, drivers_license: :string, address1: :string, address2: :string, city: :string, state_province: :string, country: :string, postal_code: :string, email_address: :string, phone_number: :string, other_phone_number: :string, profile_exists: :boolean, company_defined1: :string, company_defined2: :string, company_defined2: :string)
 ```
 
 * Adjust credit without parameter
 ```ruby
-Aloha.adjust_credit(client)
+client.adjust_credit
 ```
 * Adjust credit with parameters
 ```ruby
-Aloha.adjust_credit(client, card_number: :string, bpid: :integer, adjustment_type: :string, bp_credit: :integer, reason: :string)
+client.adjust_credit(card_number: :string, bpid: :integer, adjustment_type: :string, bp_credit: :integer, reason: :string)
 ```
 
 * Get bonus plan history without parameter
 ```ruby
-Aloha.get_bonus_plan_history(client)
+client.get_bonus_plan_history
 ```
 * Get bonus plan history without parameters
 ```ruby
-Aloha.get_bonus_plan_history(client, card_number: :string,  number_of_assignments: :integer, number_of_days: :integer, start_date: :string,  end_date: :string)
+client.get_bonus_plan_history(card_number: :string,  number_of_assignments: :integer, number_of_days: :integer, start_date: :string,  end_date: :string)
 ```
 
 * Check email exists without parameter
 ```ruby
-Aloha.email_exists(client)
+client.email_exists
 ```
 * Check email exists with parameter
 ```ruby
-Aloha.email_exists(client, email_address: :string)
+client.email_exists(email_address: :string)
 ```
 
 * Get card number by email without parameter
 ```ruby
-Aloha.get_card_number_by_email(client)
+client.get_card_number_by_email
 ```
 * Get card number by email with parameter
 ```ruby
-Aloha.get_card_number_by_email(client, email_address: :string)
+client.get_card_number_by_email(account_status: :string, email_address: :string)
 ```
 
 * Get card number by phone without parameter
 ```ruby
-Aloha.get_card_number_by_phone(client)
+client.get_card_number_by_phone
 ```
 * Get card number by phone with parameter
 ```ruby
-Aloha.get_card_number_by_phone(client, phone_number: :string)
+client.get_card_number_by_phone(account_status: :string, phone_number: :string)
 ```
 
 * Get card status without parameter
 ```ruby
-Aloha.get_card_status(client)
+client.get_card_status
 ```
 * Get card status with parameter
 ```ruby
-Aloha.get_card_status(client, card_number: :string)
+client.get_card_status(card_number: :string)
 ```
 
 * Get member profile without parameter
 ```ruby
-Aloha.get_member_profile(client)
+client.get_member_profile
 ```
 * Get member profile with parameter
 ```ruby
-Aloha.get_member_profile(client, card_number: :string)
+client.get_member_profile(card_number: :string)
 ```
 
 * Check phone number exists without parameter
 ```ruby
-Aloha.phone_number_exists(client)
+client.phone_number_exists
 ```
 * Check card number by phone with parameter
 ```ruby
-Aloha.phone_number_exists(client, phone_number: :string)
+client.phone_number_exists(phone_number: :string)
 ```
 
 * Update member profile without parameter
 ```ruby
-Aloha.update_member_profile(client)
+client.update_member_profile
 ```
 * Update member profile with parameter
 ```ruby
-Aloha.update_member_profile(client, member_account_id: :integer, card_number: :string, first_name: :string, last_name: :string, company: :string, date_of_birth: {date: :string, locale: :string}, anniversary_date: {date: :string, locale: :string}, drivers_license: :string, address1: :string, address2: :string, city: :string, state_province: :string, country: :string, postal_code: :string, email_address: :string, phone_number: :string, other_phone_number: :string, profile_exists: :boolean)
+client.update_member_profile(member_account_id: :integer, card_number: :string, first_name: :string, last_name: :string, company: :string, date_of_birth: {date: :string, locale: :string}, anniversary_date: {date: :string, locale: :string}, drivers_license: :string, address1: :string, address2: :string, city: :string, state_province: :string, country: :string, postal_code: :string, email_address: :string, phone_number: :string, other_phone_number: :string, profile_exists: :boolean, company_defined1: :string, company_defined2: :string, company_defined2: :string)
 ```
 
 * Assign forgotten card without parameter
 ```ruby
-Aloha.assign_forgotten_card(client)
+client.assign_forgotten_card
 ```
 * Assign forgotten card with parameter
 ```ruby
-Aloha.assign_forgotten_card(client, card_number: :string, claim_id: :string)
+client.assign_forgotten_card(card_number: :string, claim_id: :string)
 ```
 
 * Get check detail without parameter
 ```ruby
-Aloha.get_check_detail(client)
+client.get_check_detail
 ```
 * Get check detail with parameter
 ```ruby
-Aloha.get_check_detail(client, claim_id: :string, store_id: :integer, date_of_business: :string)
+client.get_check_detail(claim_id: :string, store_id: :integer, date_of_business: :string)
 ```
 
 
