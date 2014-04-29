@@ -144,7 +144,7 @@ module Aloha
     ### getCardNumberByEmail()
     def get_card_number_by_email(params = {})
       request_params = {
-        account_status: params[:account_status],
+        status: params[:account_status],
         email_address: params[:email_address]
       }
       request_params.merge!(default_request)
@@ -159,7 +159,7 @@ module Aloha
     ### getCardNumberByPhone()
     def get_card_number_by_phone(params = {})
       request_params = {
-        account_status: params[:account_status],
+        status: params[:account_status],
         phone_number: params[:phone_number]
       }
       request_params.merge!(default_request)
