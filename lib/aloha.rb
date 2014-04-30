@@ -1,73 +1,47 @@
 require 'aloha/version'
+require 'aloha/helper'
 require 'rubygems'
 require 'savon'
 require 'httpclient'
 
 module Aloha
   class Soap
-    attr_accessor :default_request, :default_setting, :client
+    attr_accessor :default_request, :client
 
     def initialize(params = {})
       gem_root = Gem::Specification.find_by_name('aloha').gem_dir
-      @default_setting = YAML.load_file(gem_root + '/config/default_setting.yml')
+      default_setting = OpenStruct.new(YAML.load_file(gem_root + '/config/default_setting.yml'))
 
-      if params
-        system_id = params[:system_id] if params[:system_id]
-        company_id = params[:company_id] if params[:company_id]
-        user_id = params[:user_id] if params[:user_id]
-        account_password = params[:account_password] if params[:account_password]
-        system_password = params[:system_password] if params[:system_password]
-        wsdl_url = params[:wsdl_url] if params[:wsdl_url]
+      system_id = params[:system_id] || default_setting.system_id
+      company_id = params[:company_id] || default_setting.company_id
+      user_id = params[:user_id] || default_setting.user_id
+      account_password = params[:account_password] || default_setting.account_password
+      system_password = params[:system_password] || default_setting.system_password
+      wsdl_url = params[:wsdl_url] || default_setting.wsdl_url
 
-        @default_request = {'companyID' => company_id, 'userID' => user_id, 'password' => account_password} if company_id && user_id && account_password
+      @default_request = {'companyID' => company_id, 'userID' => user_id, 'password' => account_password} if company_id && user_id && account_password
 
-        @client = Savon.client(soap_header: @default_request) do
-          wsdl wsdl_url
-          wsse_timestamp true
-          wsse_auth system_id, system_password
-          log true
-          log_level :debug
-          pretty_print_xml true
-        end if  system_id && system_password
-      end
+      @client = Savon.client(soap_header: @default_request) do
+        wsdl wsdl_url
+        wsse_timestamp true
+        wsse_auth system_id, system_password
+        log true
+        log_level :debug
+        pretty_print_xml true
+      end if  system_id && system_password
     end
 
     #### addMemberProfile()
     def add_member_profile(params = {})
       request_params = {
-        profile: {
-          member_account_id: params[:member_account_id],
-          card_number: params[:card_number],
-          first_name: params[:first_name],
-          last_name: params[:last_name],
-          company: params[:company],
-          date_of_birth: {
-              date: params[:date_of_birth].blank? ? Date.today.to_s : params[:date_of_birth][:date].to_s || Date.today.to_s,
-              locale: params[:date_of_birth].blank? ? 'en_US' : params[:date_of_birth][:locale].to_s || 'en_US'
-          },
-          anniversary_date: {
-              date: params[:anniversary_date].blank? ? Date.today.to_s : params[:anniversary_date][:date].to_s || Date.today.to_s,
-              locale: params[:anniversary_date].blank? ? 'en_US' : params[:anniversary_date][:locale].to_s || 'en_US'
-          },
-          drivers_license: params[:drivers_license],
-          address1: params[:address1],
-          address2: params[:address2],
-          city: params[:city],
-          state_province: params[:state_province],
-          country: params[:country],
-          postal_code: params[:postal_code],
-          email_address: params[:email_address],
-          phone_number: params[:phone_number],
-          other_phone_number: params[:other_phone_number],
-          profile_exists: params[:profile_exists]
-        }
+        profile: Aloha::Helper.member_profile(params)
       }
       request_params.merge!(default_request) if default_request
 
-
-      client.call(:add_member_profile) do
+      response = client.call(:add_member_profile) do
         message(add_member_profile_request: request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :add_member_profile)
 
     rescue Savon::SOAPFault
     end
@@ -83,9 +57,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:adjust_credit) do
+      response = client.call(:adjust_credit) do
         message(adjust_credit_request: request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :adjust_credit)
 
     rescue Savon::SOAPFault
     end
@@ -101,9 +76,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:get_bonus_plan_history) do
+      response = client.call(:get_bonus_plan_history) do
         message('GetBonusPlanHistoryRequest' => request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :get_bonus_plan_history)
 
     rescue Savon::SOAPFault
     end
@@ -117,9 +93,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:get_bonus_plan_standings) do
+      response = client.call(:get_bonus_plan_standings) do
         message(get_bonus_plan_standings_request: request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :get_bonus_plan_standings)
 
     rescue Savon::SOAPFault
     end
@@ -131,9 +108,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:e_mail_exists) do
+      response = client.call(:e_mail_exists) do
         message(e_mail_exists_request: request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :e_mail_exists)
 
     rescue Savon::SOAPFault
     end
@@ -146,9 +124,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:get_card_number_by_email) do
+      response = client.call(:get_card_number_by_email) do
         message('GetCardNumberByEmailRequest' => request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :get_card_number_by_email)
 
     rescue Savon::SOAPFault
     end
@@ -161,9 +140,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      @client.call(:get_card_number_by_phone) do
+      response = client.call(:get_card_number_by_phone) do
         message('GetCardNumberByPhoneRequest' => request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :get_card_number_by_phone)
 
     rescue Savon::SOAPFault
     end
@@ -175,9 +155,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:get_card_status) do
+      response = client.call(:get_card_status) do
         message(get_card_status_request: request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :get_card_status)
 
     rescue Savon::SOAPFault
     end
@@ -189,9 +170,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:get_member_profile) do
+      response = client.call(:get_member_profile) do
         message(get_member_profile_request: request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :get_member_profile)
 
     rescue Savon::SOAPFault
     end
@@ -203,52 +185,25 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:phone_number_exists) do
+      response = client.call(:phone_number_exists) do
         message('PhoneNumberExistsRequest' => request_params)
       end if client
 
+      Aloha::Helper.aloha_soap_result(response, :phone_number_exists)
     rescue Savon::SOAPFault
     end
 
     ### updateMemberProfile()
     def update_member_profile(params = {})
-      profile = default_setting['member_profile']
       request_params = {
-        profile: {
-          member_account_id: params[:member_account_id],
-          card_number: params[:card_number],
-          first_name: params[:first_name],
-          last_name: params[:last_name],
-          company: params[:company],
-          date_of_birth: {
-            date: params[:date_of_birth].blank? ? Date.today.to_s : params[:date_of_birth][:date].to_s || Date.today.to_s, # VanityDate date:String
-            locale: params[:date_of_birth].blank? ? 'en_US' : params[:date_of_birth][:locale].to_s || 'en_US' # VanityDate locale:String
-          },
-          anniversary_date: {
-            date: params[:anniversary_date].blank? ? Date.today.to_s : params[:anniversary_date][:date].to_s || Date.today.to_s,  # VanityDate date:String
-            locale: params[:anniversary_date].blank? ? 'en_US' : params[:anniversary_date][:locale].to_s || 'en_US' # VanityDate locale:String
-          },
-          drivers_license: params[:drivers_license],
-          address1: params[:address1],
-          address2: params[:address2],
-          city: params[:city],
-          state_province: params[:state_province],
-          country: params[:country],
-          postal_code: params[:postal_code],
-          email_address: params[:email_address],
-          phone_number: params[:phone_number],
-          other_phone_number: params[:other_phone_number],
-          profile_exists: params[:profile_exists],
-          company_defined1: params[:company_defined1],
-          company_defined2: params[:company_defined2],
-          company_defined2: params[:company_defined2]
-        }
+        profile: Aloha::Helper.member_profile(params)
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:update_member_profile) do
+      response = client.call(:update_member_profile) do
         message(update_member_profile_request: request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :update_member_profile)
 
     rescue Savon::SOAPFault
     end
@@ -261,9 +216,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:assign_forgotten_card) do
+      response = client.call(:assign_forgotten_card) do
         message(assign_forgotten_card_request: request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :assign_forgotten_card)
 
     rescue Savon::SOAPFault
     end
@@ -277,9 +233,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:get_check_detail) do
+      response = client.call(:get_check_detail) do
         message('GetCheckDetailRequest' => request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :get_check_detail)
 
     rescue Savon::SOAPFault
     end
@@ -291,9 +248,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:activate_new_card) do
+      response = client.call(:activate_new_card) do
         message('ActivateNewCardRequest' => request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :activate_new_card)
 
     rescue Savon::SOAPFault
     end
@@ -305,9 +263,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:create_virtual_card) do
+      response = client.call(:create_virtual_card) do
         message('CreateVirtualCardResult' => request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :create_virtual_card)
 
     rescue Savon::SOAPFault
     end
@@ -319,9 +278,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:opt_out) do
+      response = client.call(:opt_out) do
         message(opt_out_request: request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :opt_out)
 
     rescue Savon::SOAPFault
     end
@@ -333,9 +293,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:phone_number_exists) do
+      response = client.call(:phone_number_exists) do
         message('PhoneNumberExistsRequest' => request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :phone_number_exists)
 
     rescue Savon::SOAPFault
     end
@@ -347,9 +308,10 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
-      client.call(:new_virtual_card) do
+      response = client.call(:new_virtual_card) do
         message('NewVirtualCardRequest' => request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :new_virtual_card)
 
     rescue Savon::SOAPFault
     end
@@ -365,11 +327,12 @@ module Aloha
           numeric_sequence_type: params[:numeric_sequence_type],
           starting_card_number: params[:starting_card_number]
       }
-      request_params.merge!(default_request) if default_request
+      response = request_params.merge!(default_request) if default_request
 
       client.call(:create_new_card) do
         message('CreateNewCardRequest' => request_params)
       end if client
+      Aloha::Helper.aloha_soap_result(response, :create_new_card)
 
     rescue Savon::SOAPFault
     end

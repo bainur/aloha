@@ -26,7 +26,7 @@ Then, you can access for :
 
 * Add member profile
 ```ruby
-client.add_member_profile(member_account_id: :integer, card_number: :string, first_name: :string, last_name: :string, company: :string, date_of_birth: {date: :string, locale: :string}, anniversary_date: {date: :string, locale: :string}, drivers_license: :string, address1: :string, address2: :string, city: :string, state_province: :string, country: :string, postal_code: :string, email_address: :string, phone_number: :string, other_phone_number: :string, profile_exists: :boolean, company_defined1: :string, company_defined2: :string, company_defined2: :string)
+client.add_member_profile(member_account_id: :integer, card_number: :string, first_name: :string, last_name: :string, company: :string, date_of_birth: {date: :string, locale: :string}, anniversary_date: {date: :string, locale: :string}, drivers_license: :string, address1: :string, address2: :string, city: :string, state_province: :string, country: :string, postal_code: :string, email_address: :string, phone_number: :string, other_phone_number: :string, profile_exists: :boolean)
 ```
 
 * Adjust credit
@@ -71,7 +71,7 @@ client.phone_number_exists(phone_number: :string)
 
 * Update member profile
 ```ruby
-client.update_member_profile(member_account_id: :integer, card_number: :string, first_name: :string, last_name: :string, company: :string, date_of_birth: {date: :string, locale: :string}, anniversary_date: {date: :string, locale: :string}, drivers_license: :string, address1: :string, address2: :string, city: :string, state_province: :string, country: :string, postal_code: :string, email_address: :string, phone_number: :string, other_phone_number: :string, profile_exists: :boolean, company_defined1: :string, company_defined2: :string, company_defined2: :string)
+client.update_member_profile(member_account_id: :integer, card_number: :string, first_name: :string, last_name: :string, company: :string, date_of_birth: {date: :string, locale: :string}, anniversary_date: {date: :string, locale: :string}, drivers_license: :string, address1: :string, address2: :string, city: :string, state_province: :string, country: :string, postal_code: :string, email_address: :string, phone_number: :string, other_phone_number: :string, profile_exists: :boolean)
 ```
 
 * Assign forgotten card
@@ -120,7 +120,7 @@ client.create_new_card(activate_card: :boolean, batch_desc: :string, batch_id: :
 
 ## Contributing
 
-1. Fork it ( http://github.com/<my-github-username>/aloha/fork )
+1. Fork it ( http://github.com/bainur/aloha/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
