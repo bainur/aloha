@@ -60,17 +60,14 @@ module Aloha
           phone_number: params[:phone_number],
           other_phone_number: params[:other_phone_number],
           profile_exists: params[:profile_exists]
-          #company_defined1: params[:company_defined1],
-          #company_defined2: params[:company_defined2],
-          #company_defined2: params[:company_defined2]
         }
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
 
       client.call(:add_member_profile) do
         message(add_member_profile_request: request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -84,11 +81,11 @@ module Aloha
           'BPCredit' => params[:bp_credit],
           'reason' => params[:reason]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:adjust_credit) do
         message(adjust_credit_request: request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -102,11 +99,11 @@ module Aloha
           start_date: params[:start_date] || Date.today.to_s,
           end_date: params[:end_date] || Date.today.to_s
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:get_bonus_plan_history) do
         message('GetBonusPlanHistoryRequest' => request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -118,11 +115,11 @@ module Aloha
           available_items_return: params[:available_items_return],
           purchased_items_return: params[:purchased_items_return]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:get_bonus_plan_standings) do
         message(get_bonus_plan_standings_request: request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -132,11 +129,11 @@ module Aloha
       request_params = {
           e_mail_address: params[:email_address]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:e_mail_exists) do
         message(e_mail_exists_request: request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -147,11 +144,11 @@ module Aloha
         status: params[:account_status],
         email_address: params[:email_address]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:get_card_number_by_email) do
         message('GetCardNumberByEmailRequest' => request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -162,11 +159,11 @@ module Aloha
         status: params[:account_status],
         phone_number: params[:phone_number]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       @client.call(:get_card_number_by_phone) do
         message('GetCardNumberByPhoneRequest' => request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -176,11 +173,11 @@ module Aloha
       request_params = {
           card_number: params[:card_number]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:get_card_status) do
         message(get_card_status_request: request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -190,11 +187,11 @@ module Aloha
       request_params = {
           card_number: params[:card_number]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:get_member_profile) do
         message(get_member_profile_request: request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -204,11 +201,11 @@ module Aloha
       request_params = {
           phone_number: params[:phone_number]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:phone_number_exists) do
         message('PhoneNumberExistsRequest' => request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -247,11 +244,11 @@ module Aloha
           company_defined2: params[:company_defined2]
         }
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:update_member_profile) do
         message(update_member_profile_request: request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -262,11 +259,11 @@ module Aloha
           card_number: params[:card_number],
           claim_ID: params[:claim_id]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:assign_forgotten_card) do
         message(assign_forgotten_card_request: request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -278,11 +275,11 @@ module Aloha
         store_ID: params[:store_id],
         date_of_business: params[:date_of_business] || Date.today.to_s
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:get_check_detail) do
         message('GetCheckDetailRequest' => request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -292,11 +289,11 @@ module Aloha
       request_params = {
           'batchID' => params[:batch_id]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:activate_new_card) do
         message('ActivateNewCardRequest' => request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -306,11 +303,11 @@ module Aloha
       request_params = {
           card_series: params[:card_series]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:create_virtual_card) do
         message('CreateVirtualCardResult' => request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -320,11 +317,11 @@ module Aloha
       request_params = {
           card_number: params[:card_number]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:opt_out) do
         message(opt_out_request: request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -334,11 +331,11 @@ module Aloha
       request_params = {
           phone_number: params[:phone_number]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:phone_number_exists) do
         message('PhoneNumberExistsRequest' => request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -348,11 +345,11 @@ module Aloha
       request_params = {
           card_series: params[:card_series]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:new_virtual_card) do
         message('NewVirtualCardRequest' => request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
@@ -368,11 +365,11 @@ module Aloha
           numeric_sequence_type: params[:numeric_sequence_type],
           starting_card_number: params[:starting_card_number]
       }
-      request_params.merge!(default_request)
+      request_params.merge!(default_request) if default_request
 
       client.call(:create_new_card) do
         message('CreateNewCardRequest' => request_params)
-      end
+      end if client
 
     rescue Savon::SOAPFault
     end
