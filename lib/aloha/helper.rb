@@ -3,7 +3,8 @@ module Aloha
 
     def self.aloha_soap_result(response, operation)
       if response
-        OpenStruct.new(response.to_hash[(operation.to_s+'_response').to_sym][(operation.to_s+'_result').to_sym])
+        #OpenStruct.new(response.to_hash[(operation.to_s+'_response').to_sym][(operation.to_s+'_result').to_sym])
+        return response
       end
     end
 
