@@ -17,12 +17,12 @@ module Aloha
       hash_params[:company] = params[:company] unless params[:company].blank?
       unless params[:date_of_birth].blank?
         hash_params[:date_of_birth] = {}
-        hash_params[:date_of_birth][:date] = params[:date_of_birth][:date]
+        hash_params[:date_of_birth][:date] = params[:date_of_birth][:date] unless params[:date_of_birth][:date].blank?
         hash_params[:date_of_birth][:locale]  = 'en_US'
       end
       unless params[:anniversary_date].blank?
         hash_params[:anniversary_date] = {}
-        hash_params[:anniversary_date][:date] = params[:anniversary_date][:date]
+        hash_params[:anniversary_date][:date] = params[:anniversary_date][:date] unless params[:anniversary_date][:date].blank?
         hash_params[:anniversary_date][:locale]  = 'en_US'
       end
       hash_params[:drivers_license] = params[:drivers_license] unless params[:drivers_license].blank?
