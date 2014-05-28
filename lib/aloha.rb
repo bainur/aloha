@@ -68,7 +68,9 @@ module Aloha
     ### getBonusPlanHistory()
     def get_bonus_plan_history(params = {})
       request_params = {
-          card_number: params[:card_number]
+          card_number: params[:card_number],
+          start_date: params[:start_date],
+          end_date: params[:end_date]
       }
       request_params.merge!(default_request) if default_request
 
