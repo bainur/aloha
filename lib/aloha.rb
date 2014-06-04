@@ -71,7 +71,7 @@ module Aloha
       request_params.merge!(number_of_assignments: params[:number_of_assignments]) if params[:number_of_assignments]
       request_params.merge!(number_of_days: params[:number_of_days]) if params[:number_of_days]
       request_params.merge!(start_date: params[:start_date]) if params[:start_date]
-      request_params.merge!(number_of_assignments: end_date: params[:end_date]) if end_date: params[:end_date]
+      request_params.merge!(end_date: params[:end_date]) if params[:end_date]
       request_params.merge!(default_request) if default_request
 
       response = client.call(:get_bonus_plan_history) do
