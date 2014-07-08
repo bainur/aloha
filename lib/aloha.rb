@@ -9,15 +9,15 @@ module Aloha
     attr_accessor :default_request, :client
 
     def initialize(params = {})
-      gem_root = Gem::Specification.find_by_name('aloha').gem_dir
-      default_setting = OpenStruct.new(YAML.load_file(gem_root + '/config/default_setting.yml'))
+      #gem_root = Gem::Specification.find_by_name('aloha').gem_dir
+      #default_setting = OpenStruct.new(YAML.load_file(gem_root + '/config/default_setting.yml'))
 
-      system_id = params[:system_id] || default_setting.system_id
-      company_id = params[:company_id] || default_setting.company_id
-      user_id = params[:user_id] || default_setting.user_id
-      account_password = params[:account_password] || default_setting.account_password
-      system_password = params[:system_password] || default_setting.system_password
-      wsdl_url = params[:wsdl_url] || default_setting.wsdl_url
+      system_id = params[:system_id]# || default_setting.system_id
+      company_id = params[:company_id]# || default_setting.company_id
+      user_id = params[:user_id]# || default_setting.user_id
+      account_password = params[:account_password]# || default_setting.account_password
+      system_password = params[:system_password]# || default_setting.system_password
+      wsdl_url = params[:wsdl_url]# || default_setting.wsdl_url
 
       @default_request = {'companyID' => company_id, 'userID' => user_id, 'password' => account_password} if company_id && user_id && account_password
 
