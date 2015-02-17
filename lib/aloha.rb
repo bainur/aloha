@@ -18,7 +18,7 @@ module Aloha
       account_password = params[:account_password]# || default_setting.account_password
       system_password = params[:system_password]# || default_setting.system_password
       wsdl_url = params[:wsdl_url]# || default_setting.wsdl_url
-
+      ssl_version = params[:ssl_version] || :SSLv3
       @default_request = {'companyID' => company_id, 'userID' => user_id, 'password' => account_password} if company_id && user_id && account_password
 
       @client = Savon.client(soap_header: @default_request) do
@@ -28,6 +28,7 @@ module Aloha
         log true
         log_level :debug
         pretty_print_xml true
+        ssl_version ssl_version
       end if  system_id && system_password
     end
 
