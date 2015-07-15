@@ -342,7 +342,7 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
       response = client.call(:get_dynamic_comp_balance) do
-        message(:get_dynamic_comp_balance_request => request_params)
+        message("GetDynamicCompBalanceRequest" => request_params)
       end if client
       Aloha::Helper.aloha_soap_result(response, :get_dynamic_comp_balance)
 
