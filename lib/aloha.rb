@@ -335,5 +335,19 @@ module Aloha
 
     rescue Savon::SOAPFault
     end
+
+    def get_dynamic_comp_balance(params = {})
+      request_params = {
+          card_number: params[:card_number]
+      }
+      request_params.merge!(default_request) if default_request
+      response = client.call(:get_dynamic_comp_balance) do
+        message(:get_dynamic_comp_balance_request => request_params)
+      end if client
+      Aloha::Helper.aloha_soap_result(response, :get_dynamic_comp_balance)
+
+    rescue Savon::SOAPFault
+    end
+
   end
 end
