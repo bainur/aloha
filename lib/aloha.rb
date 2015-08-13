@@ -26,8 +26,8 @@ module Aloha
         wsse_timestamp true
         wsse_auth system_id, system_password
         log true
-        log_level :debug
-        pretty_print_xml true
+        log_level :error
+        #pretty_print_xml true
         ssl_version ssl_version
       end if  system_id && system_password
     end
