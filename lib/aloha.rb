@@ -25,7 +25,7 @@ module Aloha
         wsdl wsdl_url
         wsse_timestamp true
         wsse_auth system_id, system_password
-        log true
+        log false
         log_level :error
         #pretty_print_xml true
         ssl_version ssl_version
