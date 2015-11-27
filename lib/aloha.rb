@@ -349,5 +349,31 @@ module Aloha
     rescue Savon::SOAPFault
     end
 
+    def get_card_balance(params = {})
+      request_params = {
+          card_number: params[:card_number]
+      }
+      request_params.merge!(default_request) if default_request
+      response = client.call(:get_card_balance) do
+        message("GetCardBalanceRequest" => request_params)
+      end if client
+      Aloha::Helper.aloha_soap_result(response, :get_card_balance)
+
+    rescue Savon::SOAPFault
+    end
+
+    def get_sv_history(params = {})
+      request_params = {
+          card_number: params[:card_number]
+      }
+      request_params.merge!(default_request) if default_request
+      response = client.call(:get_sv_history) do
+        message("GetSVHistoryRequest" => request_params)
+      end if client
+      Aloha::Helper.aloha_soap_result(response, :get_sv_history)
+
+    rescue Savon::SOAPFault
+    end
+
   end
 end
