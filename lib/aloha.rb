@@ -58,6 +58,8 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
 
+      p request_params
+
       response = client.call(:adjust_credit) do
         message(adjust_credit_request: request_params)
       end if client
