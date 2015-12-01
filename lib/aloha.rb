@@ -364,15 +364,44 @@ module Aloha
     rescue Savon::SOAPFault
     end
 
-    def get_sv_history(params = {})
+    def get_card_history(params = {})
       request_params = {
           card_number: params[:card_number]
       }
       request_params.merge!(default_request) if default_request
       response = client.call(:get_sv_history) do
-        message("GetSVHistoryRequest" => request_params)
+        message("GetCardHistoryRequest" => request_params)
       end if client
-      Aloha::Helper.aloha_soap_result(response, :get_sv_history)
+      Aloha::Helper.aloha_soap_result(response, :get_card_history)
+
+    rescue Savon::SOAPFault
+    end
+
+    def process_deposit(params = {})
+      request_params = {
+          card_number: params[:card_number],
+          amount: params[:amount],
+          quantity: params[:quantity]
+      }
+      request_params.merge!(default_request) if default_request
+      response = client.call(:get_sv_history) do
+        message("ProcessDepositRequest" => request_params)
+      end if client
+      Aloha::Helper.aloha_soap_result(response, :process_deposit)
+
+    rescue Savon::SOAPFault
+    end
+
+    def process_redemption(params = {})
+      request_params = {
+          card_number: params[:card_number],
+          amount: params[:amount]
+      }
+      request_params.merge!(default_request) if default_request
+      response = client.call(:get_sv_history) do
+        message("ProcessRedemptionRequest" => request_params)
+      end if client
+      Aloha::Helper.aloha_soap_result(response, :process_redemption)
 
     rescue Savon::SOAPFault
     end
