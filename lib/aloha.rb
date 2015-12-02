@@ -357,7 +357,7 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
       response = client.call(:get_card_balance) do
-        message("GetCardBalanceRequest" => request_params)
+        message("getCardBalanceRequest" => request_params)
       end if client
       Aloha::Helper.aloha_soap_result(response, :get_card_balance)
 
@@ -370,7 +370,7 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
       response = client.call(:get_sv_history) do
-        message("GetCardHistoryRequest" => request_params)
+        message("getCardHistoryRequest" => request_params)
       end if client
       Aloha::Helper.aloha_soap_result(response, :get_card_history)
 
@@ -385,7 +385,7 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
       response = client.call(:get_sv_history) do
-        message("ProcessDepositRequest" => request_params)
+        message("processDepositRequest" => request_params)
       end if client
       Aloha::Helper.aloha_soap_result(response, :process_deposit)
 
