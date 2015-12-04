@@ -370,7 +370,7 @@ module Aloha
       }
       request_params.merge!(default_request) if default_request
       response = client.call(:get_sv_history) do
-        message("getCardHistoryRequest" => request_params)
+        message("GetSVHistoryRequest" => request_params)
       end if client
       Aloha::Helper.aloha_soap_result(response, :get_card_history)
 
