@@ -398,7 +398,7 @@ module Aloha
           amount: params[:amount]
       }
       request_params.merge!(default_request) if default_request
-      response = client.call(:get_sv_history) do
+      response = client.call(:process_redemption) do
         message("ProcessRedemptionRequest" => request_params)
       end if client
       Aloha::Helper.aloha_soap_result(response, :process_redemption)
