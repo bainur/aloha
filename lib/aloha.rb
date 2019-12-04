@@ -19,6 +19,8 @@ module Aloha
       system_password = params[:system_password]# || default_setting.system_password
       wsdl_url = params[:wsdl_url]# || default_setting.wsdl_url
       ssl_version = params[:ssl_version] || :SSLv3
+      log_level = params[:log_level] || :debug
+      print_xml = params[:print_xml] || true
       @default_request = {'companyID' => company_id, 'userID' => user_id, 'password' => account_password} if company_id && user_id && account_password
 
       @client = Savon.client(soap_header: @default_request) do
@@ -26,8 +28,8 @@ module Aloha
         wsse_timestamp true
         wsse_auth system_id, system_password
         log true
-        log_level :debug
-        pretty_print_xml true
+        log_level log_level
+        pretty_print_xml print_xml
         ssl_version ssl_version
       end if  system_id && system_password
     end
@@ -57,8 +59,6 @@ module Aloha
           'reason' => params[:reason]
       }
       request_params.merge!(default_request) if default_request
-
-      p request_params
 
       response = client.call(:adjust_credit) do
         message(adjust_credit_request: request_params)
@@ -176,21 +176,6 @@ module Aloha
       end if client
       Aloha::Helper.aloha_soap_result(response, :get_member_profile)
 
-    rescue Savon::SOAPFault
-    end
-
-    ### phoneNumberExists() 
-    def phone_number_exists(params = {})
-      request_params = {
-          phone_number: params[:phone_number]
-      }
-      request_params.merge!(default_request) if default_request
-
-      response = client.call(:phone_number_exists) do
-        message('PhoneNumberExistsRequest' => request_params)
-      end if client
-
-      Aloha::Helper.aloha_soap_result(response, :phone_number_exists)
     rescue Savon::SOAPFault
     end
 
