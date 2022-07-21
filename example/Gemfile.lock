@@ -1,5 +1,5 @@
 PATH
-  remote: ../
+  remote: ..
   specs:
     aloha (0.0.1)
       httpclient
@@ -127,7 +127,7 @@ GEM
       polyglot (>= 0.3.1)
     turbolinks (2.2.2)
       coffee-rails
-    tzinfo (0.3.39)
+    tzinfo (0.3.61)
     uglifier (2.5.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
